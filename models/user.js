@@ -1,7 +1,7 @@
 /**
  * Created by dli on 5/26/16.
  */
-var bcrypt = require("bcypt-nodejs");
+var bcrypt = require("bcrypt-nodejs");
 var SALT_FACTOR = 10;
 
 var mongoose  = require("mongoose");
@@ -19,7 +19,7 @@ userSchema.methods.name = function(){
 
 var noop = function(){};
 
-userSchema.pre("save", function (err, salt) {
+userSchema.pre("save", function (done) {
     var user = this;
     if(!user.isModified("password")){
         return done();

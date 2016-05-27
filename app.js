@@ -18,9 +18,9 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(cookieParser());
 app.use(session({
-    secret:"",
+    secret:'wweiojweiojwefjiojwiefjwiofjci.ve[',
     resave: true,
-    saveUniitialized: true
+    saveUninitialized: true
 }));
 
 
@@ -28,5 +28,5 @@ app.use(flash());
 app.use(routes);
 
 app.listen(app.get("port"), function () {
-    console.log("app started at"+app.get("port"));
+    console.log("app started at: "+app.get("port"));
 });

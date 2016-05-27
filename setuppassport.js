@@ -1,18 +1,7 @@
-var password = require('passport');
+var passport = require('passport');
 var LocalStrategy = require("passport-local").Strategy;
 
 var User = require('./models/user');
-module.exports = function () {
-    passport.serializeUser(function(user, done){
-        done(null, user._id);
-    });
-
-    passport.deserializeUser(function (id, done) {
-        User.findById(id, function (err, user) {
-            done(err, user);
-        });
-    });
-}
 
 passport.use("login", new LocalStrategy(
     function(username, password, done){
@@ -29,4 +18,17 @@ passport.use("login", new LocalStrategy(
             }
         });
     }
-))
+));
+
+module.exports = function () {
+    passport.serializeUser(function(user, done){
+        done(null, user._id);
+    });
+
+    passport.deserializeUser(function (id, done) {
+        User.findById(id, function (err, user) {
+            done(err, user);
+        });
+    });
+};
+
