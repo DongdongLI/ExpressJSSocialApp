@@ -5,17 +5,19 @@ var User = require('./models/user');
 
 passport.use("login", new LocalStrategy(
     function(username, password, done){
-        if(err){return done(err);}
-        if(!user){
-            return done(null, false, {message: "No such user"});
-        }
-        user.checkPassword(password, function (err, isMatch) {
+        User.findOne({username: username}, function (err, user) {
             if(err){return done(err);}
-            if(isMatch){
-                return done(null, user);
-            }else{
-                return done(null, false, {message: "Wrong password."})
+            if(!user){
+                return done(null, false, {message: "No such user"});
             }
+            user.checkPassword(password, function (err, isMatch) {
+                if(err){return done(err);}
+                if(isMatch){
+                    return done(null, user);
+                }else{
+                    return done(null, false, {message: "Wrong password."})
+                }
+            });
         });
     }
 ));
