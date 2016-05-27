@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.use(function(req, res, next){
     res.locals.currentUser = req.user;
-    res.locals.error = req.flash("error");
+    res.locals.errors = req.flash("error");
     res.locals.infos = req.flash("info");
     next();
 });
@@ -55,5 +55,14 @@ router.get("/users/:username", function (req, res, next) {
     });
 });
 
+router.get("/login", function (req, res) {
+    res.render("login");
+});
+
+router.post("/login", passport.authenticate("login", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+}))
 
 module.exports = router;
