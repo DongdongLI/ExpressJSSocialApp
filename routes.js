@@ -63,6 +63,37 @@ router.post("/login", passport.authenticate("login", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
-}))
+}));
+
+router.get("/logout", function (req, res) {
+    req.logout();
+    res.redirect("/");
+});
+
+router.get("/edit", ensureAuthenticated,function (req, res) {
+   res.render("edit");
+});
+
+router.post("/edit", ensureAuthenticated, function (req, res, next) {
+    req.user.displayName = req.body.displayName;
+    req.user.bio = req.body.bio;
+    req.user.save(function (err) {
+       if(err){
+           next(err);
+           return;
+       }
+        req.flash("info", "Profile updated");
+        res.redirect("/edit");
+    });
+});
+
+function ensureAuthenticated(req, res, next) {
+    if(req.isAuthenticated()){
+        next();
+    }else{
+        req.flash("info", "Must login to access this page");
+        res.redirect("/login");
+    }
+}
 
 module.exports = router;
