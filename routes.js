@@ -25,15 +25,15 @@ router.get("/signup", function (req, res) {
 });
 
 router.post("/signup", function (req, res, next) {
-    console.log("in signup post");
+    //console.log("in signup post");
     var username = req.body.username;
     var password = req.body.password;
 
     User.findOne({ username: username}, function (err, user) {
         if(err) {return next(err);}
         if(user){
-            req.flash("error", "Username used");
-            return res.redirect("/signup");
+            req.flash("error", "Username used");// send the message to the destination in advanced
+            return res.redirect("/signup"); // then send you there
         }
         var newUser = new User({
             username: username,
@@ -41,7 +41,7 @@ router.post("/signup", function (req, res, next) {
         });
         newUser.save(next);
     });
-}, passport.authenticate("login", {
+}, passport.authenticate("login", { // specify the destination when successful and unsuccessful redirect happens
     successRedirect: "/",
     failureRedirect: "/signup",
     failureFlash: true
@@ -86,7 +86,7 @@ router.post("/edit", ensureAuthenticated, function (req, res, next) {
         res.redirect("/edit");
     });
 });
-
+// check if the user is authenticated to the resources
 function ensureAuthenticated(req, res, next) {
     if(req.isAuthenticated()){
         next();

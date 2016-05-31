@@ -7,10 +7,10 @@
                 <%=user.name()%>
             </a>
         </div>
+        <% if(user.bio) {%>
+            <div class="panel-body"><%= user.bio %></div>
+        <% } %>
     </div>
-    <% if(user.bio) {%>
-        <div class="panel-body"><%= user.bio %></div>
-    <% } %>
 <%}) %>
 
 <%include _footer%>
